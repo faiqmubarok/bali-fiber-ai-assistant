@@ -26,9 +26,10 @@ wheels/
 # Streamlit
 .streamlit/secrets.toml
 
-# ChromaDB
+# ChromaDB and processed data
 cluster_db/
 chroma.sqlite3
+*.pkl
 
 # Environment variables
 .env
@@ -47,3 +48,4 @@ Thumbs.db
 
 # Jupyter
 .ipynb_checkpoints/
+

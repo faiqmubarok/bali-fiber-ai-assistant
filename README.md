@@ -1,207 +1,138 @@
-# 🤖 Bali Fiber AI Assistant
+# Bali Fiber AI Assistant
 
-Sistem AI berbasis RAG (Retrieval-Augmented Generation) untuk analisis segmentasi pelanggan dan rekomendasi strategi bisnis Bali Fiber menggunakan K-Prototypes Clustering + ChromaDB + Gemini LLM.
+AI-powered customer segmentation analysis tool using RAG (Retrieval-Augmented Generation) technology. Get actionable business insights from cluster data powered by K-Prototypes clustering and Google Gemini AI.
 
-## 📋 Fitur
+## Features
 
-- ✅ Analisis cluster pelanggan secara real-time
-- ✅ Rekomendasi strategi bisnis berbasis AI
-- ✅ Semantic search menggunakan ChromaDB
-- ✅ Interface modern dengan Streamlit
-- ✅ Powered by Google Gemini LLM
+- **Smart Clustering Analysis**: Analyze 1000+ customer records across 6 distinct clusters
+- **RAG-Powered Insights**: Semantic search using ChromaDB and sentence transformers
+- **AI Business Analyst**: Get strategic recommendations from Gemini AI
+- **Modern UI**: Clean, professional interface with orange brand identity
+- **Optimized Performance**: Pre-processed data with pickle files for fast loading
 
-## 🚀 Cara Deploy
+## Installation
 
-### 1. Persiapan Lokal
-
-#### Install Dependencies
+1. Clone this repository:
 ```bash
-# Pastikan Python 3.8+ sudah terinstall
-python --version
+git clone <your-repo-url>
+cd tubes-ai
+```
 
-# Install semua library yang dibutuhkan
+2. Install dependencies:
+```bash
 pip install -r requirements.txt
 ```
 
-#### Setup API Key
-Kamu perlu API key dari Google Gemini. Dapatkan di: https://makersuite.google.com/app/apikey
-
-**Cara 1: Menggunakan Environment Variable (Recommended)**
-```bash
-# macOS/Linux
-export GEMINI_API_KEY="your-api-key-here"
-
-# Windows (Command Prompt)
-set GEMINI_API_KEY=your-api-key-here
-
-# Windows (PowerShell)
-$env:GEMINI_API_KEY="your-api-key-here"
+3. Configure your Gemini API key in `.streamlit/secrets.toml`:
+```toml
+GEMINI_API_KEY = "your-api-key-here"
 ```
 
-**Cara 2: Menggunakan Streamlit Secrets**
-```bash
-# Copy file example
-cp .streamlit/secrets.toml.example .streamlit/secrets.toml
+## Data Processing
 
-# Edit file secrets.toml dan isi dengan API key kamu
-# GEMINI_API_KEY = "your-api-key-here"
+**First time setup:** Process the raw data to generate embeddings and vector database:
+
+```bash
+python process_data.py
 ```
 
-#### Jalankan Aplikasi Lokal
+This will generate:
+- `cluster_docs.pkl` - Cluster text documents
+- `cluster_metadata.pkl` - Cluster statistics  
+- `cluster_db/` - ChromaDB vector database
+
+**Alternative:** You can also use the Jupyter notebook `AI_2_LOCAL.ipynb` for step-by-step processing.
+
+**Note:** You only need to run this once, or when you update the source data in `dataset/data_hasil_preprocessing.csv`
+
+## Running the App
+
 ```bash
 streamlit run app.py
 ```
 
-Aplikasi akan berjalan di: http://localhost:8501
+The app will be available at `http://localhost:8501`
 
----
-
-### 2. Deploy ke Streamlit Cloud (GRATIS!)
-
-#### Langkah-langkah:
-
-1. **Push ke GitHub**
-   ```bash
-   # Inisialisasi git (jika belum)
-   git init
-   
-   # Add semua file
-   git add .
-   
-   # Commit
-   git commit -m "Initial commit: Bali Fiber AI Assistant"
-   
-   # Buat repository baru di GitHub, lalu:
-   git remote add origin https://github.com/username/repo-name.git
-   git branch -M main
-   git push -u origin main
-   ```
-
-2. **Deploy di Streamlit Cloud**
-   - Buka: https://share.streamlit.io/
-   - Login dengan GitHub
-   - Klik "New app"
-   - Pilih repository kamu
-   - Main file path: `app.py`
-   - Klik "Advanced settings"
-   - Tambahkan secrets:
-     ```toml
-     GEMINI_API_KEY = "your-api-key-here"
-     ```
-   - Klik "Deploy"!
-
-3. **Selesai!** 🎉
-   - Aplikasi kamu akan live dalam beberapa menit
-   - URL akan seperti: `https://username-repo-name.streamlit.app`
-
----
-
-### 3. Deploy ke Platform Lain
-
-#### Heroku
-```bash
-# Install Heroku CLI
-# Buat file Procfile
-echo "web: streamlit run app.py --server.port=$PORT" > Procfile
-
-# Deploy
-heroku create your-app-name
-heroku config:set GEMINI_API_KEY="your-api-key-here"
-git push heroku main
-```
-
-#### Railway
-1. Buka https://railway.app/
-2. Connect GitHub repository
-3. Add environment variable: `GEMINI_API_KEY`
-4. Deploy!
-
-#### Render
-1. Buka https://render.com/
-2. New Web Service
-3. Connect repository
-4. Build command: `pip install -r requirements.txt`
-5. Start command: `streamlit run app.py --server.port=$PORT --server.address=0.0.0.0`
-6. Add environment variable: `GEMINI_API_KEY`
-
----
-
-## 📁 Struktur Project
+## Project Structure
 
 ```
 tubes-ai/
-├── app.py                          # Main Streamlit app
-├── requirements.txt                # Python dependencies
-├── README.md                       # Dokumentasi ini
-├── .gitignore                      # File yang diabaikan Git
+├── app.py                          # Main Streamlit application
+├── process_data.py                 # Data processing script
+├── AI_2_LOCAL.ipynb               # Jupyter notebook for data processing
+├── dataset/
+│   └── data_hasil_preprocessing.csv  # Source data (1060 records)
+├── cluster_db/                     # ChromaDB vector database
+├── cluster_docs.pkl               # Pre-processed cluster documents
+├── cluster_metadata.pkl           # Cluster statistics
 ├── .streamlit/
-│   ├── config.toml                # Konfigurasi Streamlit
-│   └── secrets.toml.example       # Template untuk API key
-├── cluster_db/                     # ChromaDB vector database (perlu dibuat)
-└── AI_2_FIXED.ipynb               # Notebook original
+│   ├── config.toml                # Streamlit configuration
+│   └── secrets.toml               # API keys (not in git)
+└── requirements.txt               # Python dependencies
 ```
 
----
+## How It Works
 
-## ⚠️ Troubleshooting
+1. **Data Processing**: Customer data is clustered using K-Prototypes algorithm (6 clusters)
+2. **Document Generation**: Each cluster is converted to descriptive text with statistics
+3. **Embedding Creation**: Text is embedded using sentence-transformers
+4. **Vector Storage**: Embeddings stored in ChromaDB for semantic search
+5. **RAG Pipeline**: User queries retrieve relevant clusters and generate AI insights
 
-### Error: "GEMINI_API_KEY tidak ditemukan"
-- Pastikan kamu sudah set environment variable atau secrets.toml
-- Restart terminal/aplikasi setelah set environment variable
+## Technology Stack
 
-### Error: "cluster_db not found"
-- Kamu perlu menjalankan notebook `AI_2_FIXED.ipynb` terlebih dahulu untuk generate database ChromaDB
-- Atau copy folder `cluster_db` dari Google Colab ke local
+- **Frontend**: Streamlit
+- **AI Model**: Google Gemini 2.5 Flash
+- **Vector DB**: ChromaDB
+- **Embeddings**: Sentence Transformers (all-MiniLM-L6-v2)
+- **Framework**: LangChain
+- **Clustering**: K-Prototypes
 
-### Error: Model tidak ditemukan
-- Pastikan nama model Gemini valid: `gemini-2.0-flash-exp` atau `gemini-1.5-flash`
-- Cek dokumentasi terbaru: https://ai.google.dev/models/gemini
+## Usage
 
-### Aplikasi lambat saat pertama kali load
-- Normal! Streamlit sedang download model embedding (±90MB)
-- Setelah pertama kali, akan di-cache dan jadi cepat
+1. Start the app with `streamlit run app.py`
+2. Choose a suggested question or type your own
+3. Ask questions about:
+   - Customer clusters and segmentation
+   - Churn risk analysis
+   - Sales priorities
+   - Revenue potential
+   - Business strategy
+4. View AI-generated insights with source context
 
----
+## Troubleshooting
 
-## 🔧 Konfigurasi
+**"Failed to load vector database"**
+- Run `python process_data.py` to generate the database
 
-### Ganti Model Gemini
-Edit `app.py` baris 101:
-```python
-model = genai.GenerativeModel('models/gemini-1.5-flash')  # Ganti sesuai kebutuhan
-```
+**"API key not found"**
+- Create `.streamlit/secrets.toml` and add your Gemini API key
 
-### Ubah Jumlah Dokumen Retrieval
-Edit `app.py` baris 120:
-```python
-retriever = vectordb.as_retriever(search_kwargs={'k': 5})  # Default: 3
-```
+**"Question outside scope"**
+- Use keywords like: cluster, customer, sales, churn, potential, strategy, analysis
 
----
+**App is slow on first run**
+- Normal - downloading embedding model (~90MB)
+- Subsequent runs will be faster (models are cached)
 
-## 📝 Catatan Penting
+## Sharing the Database
 
-1. **API Key**: JANGAN commit API key ke Git! Selalu gunakan environment variable atau secrets
-2. **Database**: Folder `cluster_db` harus ada dan berisi data ChromaDB yang sudah di-generate
-3. **Model**: Pastikan menggunakan model Gemini yang valid dan aktif
-4. **Gratis**: Streamlit Cloud gratis untuk public apps dengan resource terbatas
+If you need to share the processed data with team members:
 
----
+1. **Share the pickle files and database folder:**
+   ```bash
+   # Create a zip file
+   zip -r bali-fiber-data.zip cluster_db/ cluster_docs.pkl cluster_metadata.pkl
+   ```
 
-## 🤝 Kontribusi
+2. **Team members can extract and use directly:**
+   ```bash
+   unzip bali-fiber-data.zip
+   streamlit run app.py
+   ```
 
-Project ini dibuat untuk tugas AI. Feel free to fork dan modifikasi sesuai kebutuhan!
+No need to re-run `process_data.py` if using shared files.
 
----
+## License
 
-## 📞 Support
-
-Jika ada masalah saat deploy:
-1. Cek error message di terminal/logs
-2. Pastikan semua dependencies terinstall
-3. Verifikasi API key valid
-4. Cek dokumentasi Streamlit: https://docs.streamlit.io/
-
----
-
-**Developed using K-Prototypes Clustering + RAG + Gemini LLM** 🚀
+This project is for educational purposes.
