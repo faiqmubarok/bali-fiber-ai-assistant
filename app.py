@@ -91,9 +91,9 @@ genai.configure(api_key=API_KEY)
 
 # ============================================
 # MODEL GEMINI
-# FIX: Nama model yang valid
+# Menggunakan Gemini 2.5 Flash (stabil dan cepat)
 # ============================================
-model = genai.GenerativeModel('models/gemini-2.0-flash-exp')
+model = genai.GenerativeModel('models/gemini-2.5-flash')
 
 # ============================================
 # LOAD EMBEDDING MODEL
