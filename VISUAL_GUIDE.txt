@@ -1,0 +1,343 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                               ║
+║              🚀 BALI FIBER AI ASSISTANT - VISUAL DEPLOYMENT GUIDE 🚀          ║
+║                                                                               ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                         STEP 1: PERSIAPAN AWAL                               ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+    ┌─────────────────────────────────────────────────────────────┐
+    │  📖 BACA DOKUMENTASI                                         │
+    │                                                              │
+    │  Pilih salah satu:                                           │
+    │  • START_HERE.md      ← Entry point utama                   │
+    │  • QUICKSTART.md      ← Panduan 5 menit (pemula)            │
+    │  • DEPLOYMENT_GUIDE.md ← Panduan lengkap                    │
+    └─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+    ┌─────────────────────────────────────────────────────────────┐
+    │  🔑 DAPATKAN API KEY                                         │
+    │                                                              │
+    │  1. Buka: https://makersuite.google.com/app/apikey          │
+    │  2. Klik "Create API Key"                                    │
+    │  3. Copy key (format: AIzaSyC...)                           │
+    │  4. Simpan untuk step berikutnya                            │
+    └─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+    ┌─────────────────────────────────────────────────────────────┐
+    │  📦 GENERATE DATABASE (jika belum ada)                       │
+    │                                                              │
+    │  1. Buka notebook: AI_2_FIXED.ipynb                         │
+    │  2. Jalankan semua cell                                      │
+    │  3. Folder cluster_db akan dibuat otomatis                  │
+    └─────────────────────────────────────────────────────────────┘
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                    STEP 2: PILIH DEPLOYMENT METHOD                            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+                    ┌─────────────────────────┐
+                    │   PILIH DEPLOYMENT      │
+                    └───────────┬─────────────┘
+                                │
+                ┌───────────────┴───────────────┐
+                │                               │
+                ▼                               ▼
+    ┌───────────────────────┐       ┌───────────────────────┐
+    │   🏠 LOKAL            │       │   ☁️  CLOUD           │
+    │   (Testing)           │       │   (Production)        │
+    └───────────────────────┘       └───────────────────────┘
+                │                               │
+                │                               │
+                ▼                               ▼
+    ┌───────────────────────┐       ┌───────────────────────┐
+    │  Untuk testing di     │       │  Untuk deploy ke      │
+    │  komputer sendiri     │       │  internet (publik)    │
+    │                       │       │                       │
+    │  ✅ Gratis            │       │  ✅ Gratis (Streamlit)│
+    │  ✅ Cepat setup       │       │  ✅ URL publik        │
+    │  ❌ Tidak publik      │       │  ✅ Auto-deploy       │
+    └───────────────────────┘       └───────────────────────┘
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                      OPTION A: DEPLOYMENT LOKAL                               ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+    ┌─────────────────────────────────────────────────────────────┐
+    │  STEP 1: Install Dependencies                                │
+    │                                                              │
+    │  $ ./setup.sh                                                │
+    │                                                              │
+    │  atau manual:                                                │
+    │  $ pip install -r requirements.txt                           │
+    └─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+    ┌─────────────────────────────────────────────────────────────┐
+    │  STEP 2: Setup API Key                                       │
+    │                                                              │
+    │  $ cp .streamlit/secrets.toml.example \                     │
+    │       .streamlit/secrets.toml                               │
+    │                                                              │
+    │  Edit file .streamlit/secrets.toml:                         │
+    │  GEMINI_API_KEY = "AIzaSyC..."                              │
+    └─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+    ┌─────────────────────────────────────────────────────────────┐
+    │  STEP 3: Run Aplikasi                                        │
+    │                                                              │
+    │  $ ./run_local.sh                                            │
+    │                                                              │
+    │  atau manual:                                                │
+    │  $ streamlit run app.py                                      │
+    └─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+    ┌─────────────────────────────────────────────────────────────┐
+    │  ✅ SELESAI!                                                 │
+    │                                                              │
+    │  Buka browser: http://localhost:8501                        │
+    └─────────────────────────────────────────────────────────────┘
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                  OPTION B: DEPLOYMENT KE STREAMLIT CLOUD                      ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+    ┌─────────────────────────────────────────────────────────────┐
+    │  STEP 1: Push ke GitHub                                      │
+    │                                                              │
+    │  $ git init                                                  │
+    │  $ git add .                                                 │
+    │  $ git commit -m "Deploy Bali Fiber AI"                     │
+    │  $ git remote add origin https://github.com/USER/REPO.git   │
+    │  $ git push -u origin main                                   │
+    └─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+    ┌─────────────────────────────────────────────────────────────┐
+    │  STEP 2: Buka Streamlit Cloud                                │
+    │                                                              │
+    │  1. Buka: https://share.streamlit.io/                       │
+    │  2. Login dengan GitHub                                      │
+    │  3. Klik "New app"                                           │
+    └─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+    ┌─────────────────────────────────────────────────────────────┐
+    │  STEP 3: Konfigurasi App                                     │
+    │                                                              │
+    │  • Repository: Pilih repo kamu                              │
+    │  • Branch: main                                              │
+    │  • Main file path: app.py                                    │
+    └─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+    ┌─────────────────────────────────────────────────────────────┐
+    │  STEP 4: Add Secrets                                         │
+    │                                                              │
+    │  Klik "Advanced settings"                                    │
+    │  Di bagian Secrets, paste:                                   │
+    │                                                              │
+    │  GEMINI_API_KEY = "AIzaSyC..."                              │
+    └─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+    ┌─────────────────────────────────────────────────────────────┐
+    │  STEP 5: Deploy!                                             │
+    │                                                              │
+    │  Klik "Deploy"                                               │
+    │  Tunggu 2-5 menit...                                         │
+    └─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+    ┌─────────────────────────────────────────────────────────────┐
+    │  ✅ SELESAI!                                                 │
+    │                                                              │
+    │  URL: https://username-repo.streamlit.app                   │
+    │  Share URL ini ke siapa saja! 🎉                            │
+    └─────────────────────────────────────────────────────────────┘
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                         TROUBLESHOOTING VISUAL                                ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+    ❌ ERROR: "GEMINI_API_KEY not found"
+    │
+    ├─→ Lokal:
+    │   └─→ Edit .streamlit/secrets.toml
+    │       └─→ GEMINI_API_KEY = "your-key"
+    │
+    └─→ Cloud:
+        └─→ Streamlit Cloud Dashboard
+            └─→ Settings → Secrets
+                └─→ Add: GEMINI_API_KEY = "your-key"
+
+    ❌ ERROR: "cluster_db not found"
+    │
+    └─→ Jalankan notebook AI_2_FIXED.ipynb
+        └─→ Generate database
+            └─→ Copy folder cluster_db ke project
+
+    ❌ ERROR: "Model not found"
+    │
+    └─→ Edit app.py baris ~101
+        └─→ Ganti ke: gemini-1.5-flash
+            └─→ Save & restart
+
+    ❌ App sangat lambat
+    │
+    └─→ Normal untuk pertama kali!
+        └─→ Download model (~90MB)
+            └─→ Setelah itu akan cepat
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                          ARCHITECTURE DIAGRAM                                 ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+    ┌──────────────────────────────────────────────────────────────┐
+    │                         USER                                  │
+    │                    (Web Browser)                              │
+    └────────────────────────┬─────────────────────────────────────┘
+                             │
+                             │ HTTP Request
+                             ▼
+    ┌──────────────────────────────────────────────────────────────┐
+    │                    STREAMLIT APP                              │
+    │                      (app.py)                                 │
+    │                                                               │
+    │  ┌─────────────────────────────────────────────────────┐    │
+    │  │  UI Components                                       │    │
+    │  │  • Input Form                                        │    │
+    │  │  • Buttons                                           │    │
+    │  │  • Display Results                                   │    │
+    │  └─────────────────────────────────────────────────────┘    │
+    └────────────────────────┬─────────────────────────────────────┘
+                             │
+                             │ Query
+                             ▼
+    ┌──────────────────────────────────────────────────────────────┐
+    │                   RAG PIPELINE                                │
+    │                                                               │
+    │  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐  │
+    │  │   Retrieval  │───▶│   Context    │───▶│  Generation  │  │
+    │  │   (ChromaDB) │    │   Building   │    │   (Gemini)   │  │
+    │  └──────────────┘    └──────────────┘    └──────────────┘  │
+    └────────────────────────┬─────────────────────────────────────┘
+                             │
+                             │ Response
+                             ▼
+    ┌──────────────────────────────────────────────────────────────┐
+    │                    DATA LAYER                                 │
+    │                                                               │
+    │  ┌─────────────────┐         ┌─────────────────┐            │
+    │  │   ChromaDB      │         │  Sentence       │            │
+    │  │   (Vector DB)   │         │  Transformers   │            │
+    │  │                 │         │  (Embeddings)   │            │
+    │  │  cluster_db/    │         │                 │            │
+    │  └─────────────────┘         └─────────────────┘            │
+    └──────────────────────────────────────────────────────────────┘
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                            FILE DEPENDENCIES                                  ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+    app.py
+      │
+      ├─→ requirements.txt (dependencies)
+      │   ├─→ streamlit
+      │   ├─→ google-generativeai
+      │   ├─→ langchain
+      │   ├─→ langchain-community
+      │   ├─→ chromadb
+      │   └─→ sentence-transformers
+      │
+      ├─→ .streamlit/config.toml (UI config)
+      │
+      ├─→ .streamlit/secrets.toml (API key)
+      │   └─→ GEMINI_API_KEY
+      │
+      └─→ cluster_db/ (vector database)
+          └─→ Generated from AI_2_FIXED.ipynb
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                         DEPLOYMENT COMPARISON                                 ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+    ┌────────────────┬──────────┬───────────┬──────────┬─────────────┐
+    │ Platform       │ Gratis?  │ Setup     │ URL      │ Rekomendasi │
+    ├────────────────┼──────────┼───────────┼──────────┼─────────────┤
+    │ Lokal          │ ✅ Ya    │ ⭐ Mudah  │ ❌ Tidak │ Testing     │
+    │ Streamlit Cloud│ ✅ Ya    │ ⭐ Mudah  │ ✅ Ya    │ ⭐⭐⭐⭐⭐  │
+    │ Railway        │ 💰 $5    │ ⭐⭐ OK   │ ✅ Ya    │ ⭐⭐⭐⭐    │
+    │ Render         │ ✅ Tier  │ ⭐⭐ OK   │ ✅ Ya    │ ⭐⭐⭐      │
+    │ Heroku         │ 💰 $5/mo │ ⭐⭐⭐ Hard│ ✅ Ya    │ ⭐⭐        │
+    └────────────────┴──────────┴───────────┴──────────┴─────────────┘
+
+    🏆 WINNER: Streamlit Cloud
+       • 100% Gratis
+       • Paling mudah setup
+       • Auto-deploy dari GitHub
+       • SSL/HTTPS otomatis
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                            SUCCESS CHECKLIST                                  ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+    ☐ Baca dokumentasi (START_HERE.md atau QUICKSTART.md)
+    ☐ Dapatkan API key dari Google Makersuite
+    ☐ Generate database (cluster_db) dari notebook
+    ☐ Install dependencies (pip install -r requirements.txt)
+    ☐ Setup API key (.streamlit/secrets.toml atau env var)
+    ☐ Test lokal (./run_local.sh)
+    ☐ Push ke GitHub (git push)
+    ☐ Deploy ke Streamlit Cloud
+    ☐ Add secrets di Streamlit Cloud
+    ☐ Tunggu deploy selesai
+    ☐ Test aplikasi di URL publik
+    ☐ Share URL ke teman/client! 🎉
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃                              QUICK LINKS                                      ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+    🔑 Get API Key
+       https://makersuite.google.com/app/apikey
+
+    ☁️  Streamlit Cloud
+       https://share.streamlit.io/
+
+    📚 Streamlit Docs
+       https://docs.streamlit.io/
+
+    🤖 Gemini API Docs
+       https://ai.google.dev/docs
+
+    💬 Streamlit Forum
+       https://discuss.streamlit.io/
+
+    📦 GitHub
+       https://github.com/
+
+
+═══════════════════════════════════════════════════════════════════════════════
+
+                    🎉 PROJECT SIAP DEPLOY! GOOD LUCK! 🚀
+
+                    Mulai dari: START_HERE.md atau QUICKSTART.md
+
+═══════════════════════════════════════════════════════════════════════════════

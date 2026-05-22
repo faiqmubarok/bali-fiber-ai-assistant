@@ -1,0 +1,232 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    BALI FIBER AI ASSISTANT - PROJECT STRUCTURE                ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📦 tubes-ai/
+│
+├── 🚀 START_HERE.md                 ← MULAI DARI SINI!
+│
+├── 📚 DOKUMENTASI
+│   ├── QUICKSTART.md                ← Panduan 5 menit (untuk pemula)
+│   ├── DEPLOYMENT_GUIDE.md          ← Panduan lengkap deploy
+│   ├── README.md                    ← Overview project
+│   ├── SUMMARY.md                   ← Ringkasan & checklist
+│   ├── CHEATSHEET.md                ← Command reference
+│   └── PROJECT_STRUCTURE.txt        ← File ini
+│
+├── 🎯 FILE UTAMA
+│   ├── app.py                       ← ⭐ Aplikasi Streamlit
+│   ├── requirements.txt             ← Dependencies Python
+│   └── AI_2_FIXED.ipynb            ← Notebook original
+│
+├── ⚙️ KONFIGURASI
+│   ├── .streamlit/
+│   │   ├── config.toml              ← Konfigurasi Streamlit
+│   │   └── secrets.toml.example     ← Template API key
+│   ├── .gitignore                   ← File yang diabaikan Git
+│   ├── Procfile                     ← Config Heroku
+│   ├── runtime.txt                  ← Python version
+│   └── packages.txt                 ← System dependencies
+│
+├── 🛠️ SCRIPTS
+│   ├── setup.sh                     ← Auto setup (chmod +x)
+│   └── run_local.sh                 ← Run lokal (chmod +x)
+│
+└── 📊 DATABASE (perlu dibuat)
+    └── cluster_db/                  ← ChromaDB vector database
+        └── (generated from notebook)
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                              WORKFLOW DIAGRAM                                 ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          DEPLOYMENT WORKFLOW                                 │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+    START
+      │
+      ├─→ [1] Baca START_HERE.md
+      │
+      ├─→ [2] Pilih Deployment Method
+      │       │
+      │       ├─→ LOKAL (Testing)
+      │       │   │
+      │       │   ├─→ Run: ./setup.sh
+      │       │   ├─→ Edit: .streamlit/secrets.toml
+      │       │   ├─→ Run: ./run_local.sh
+      │       │   └─→ Open: http://localhost:8501
+      │       │
+      │       └─→ CLOUD (Production)
+      │           │
+      │           ├─→ Get API Key (makersuite.google.com)
+      │           ├─→ Push to GitHub
+      │           ├─→ Deploy to Streamlit Cloud
+      │           └─→ Add Secret: GEMINI_API_KEY
+      │
+      └─→ [3] DONE! 🎉
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                            APPLICATION FLOW                                   ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+    USER QUERY
+        │
+        ├─→ [1] Streamlit UI (app.py)
+        │       │
+        │       ├─→ Validate Keywords
+        │       └─→ Check Context
+        │
+        ├─→ [2] Semantic Search (ChromaDB)
+        │       │
+        │       ├─→ Load Embeddings
+        │       ├─→ Search cluster_db
+        │       └─→ Retrieve Top-K Documents
+        │
+        ├─→ [3] RAG Pipeline
+        │       │
+        │       ├─→ Build Context from Retrieved Docs
+        │       ├─→ Create Prompt
+        │       └─→ Send to Gemini LLM
+        │
+        └─→ [4] Generate Response
+                │
+                ├─→ AI Analysis
+                ├─→ Business Insights
+                └─→ Display to User
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                          TECHNOLOGY STACK                                     ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+    ┌─────────────────────────────────────────────────────────────┐
+    │                        FRONTEND                              │
+    │  • Streamlit (UI Framework)                                  │
+    │  • Custom CSS (Styling)                                      │
+    │  • Responsive Design                                         │
+    └─────────────────────────────────────────────────────────────┘
+                              │
+    ┌─────────────────────────────────────────────────────────────┐
+    │                      BACKEND / AI                            │
+    │  • Google Gemini LLM (Text Generation)                       │
+    │  • LangChain (RAG Framework)                                 │
+    │  • ChromaDB (Vector Database)                                │
+    │  • Sentence Transformers (Embeddings)                        │
+    └─────────────────────────────────────────────────────────────┘
+                              │
+    ┌─────────────────────────────────────────────────────────────┐
+    │                         DATA                                 │
+    │  • K-Prototypes Clustering                                   │
+    │  • Customer Segmentation Data                                │
+    │  • Bali Fiber Business Metrics                               │
+    └─────────────────────────────────────────────────────────────┘
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                        DEPLOYMENT PLATFORMS                                   ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+    ┌──────────────────┬──────────┬────────────┬─────────────────┐
+    │ Platform         │ Gratis?  │ Kesulitan  │ Rekomendasi     │
+    ├──────────────────┼──────────┼────────────┼─────────────────┤
+    │ Streamlit Cloud  │ ✅ Ya    │ ⭐ Mudah   │ ⭐⭐⭐⭐⭐      │
+    │ Railway          │ 💰 $5    │ ⭐⭐ Sedang│ ⭐⭐⭐⭐        │
+    │ Render           │ ✅ Tier  │ ⭐⭐ Sedang│ ⭐⭐⭐          │
+    │ Heroku           │ 💰 $5/mo │ ⭐⭐⭐ Susah│ ⭐⭐            │
+    └──────────────────┴──────────┴────────────┴─────────────────┘
+
+    🏆 RECOMMENDED: Streamlit Cloud (Gratis & Paling Mudah!)
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                            QUICK REFERENCE                                    ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+    📖 DOKUMENTASI
+    ├─ Pemula          → QUICKSTART.md
+    ├─ Detail          → DEPLOYMENT_GUIDE.md
+    ├─ Overview        → README.md
+    ├─ Summary         → SUMMARY.md
+    └─ Commands        → CHEATSHEET.md
+
+    🔑 API KEY
+    ├─ Get Key         → https://makersuite.google.com/app/apikey
+    ├─ Set Local       → .streamlit/secrets.toml
+    └─ Set Cloud       → Streamlit Cloud Secrets
+
+    🚀 DEPLOY
+    ├─ Lokal           → ./run_local.sh
+    ├─ Streamlit Cloud → https://share.streamlit.io/
+    ├─ Railway         → https://railway.app/
+    └─ Render          → https://render.com/
+
+    🆘 HELP
+    ├─ Streamlit Docs  → https://docs.streamlit.io/
+    ├─ Gemini Docs     → https://ai.google.dev/docs
+    └─ Forum           → https://discuss.streamlit.io/
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                          CHECKLIST SEBELUM DEPLOY                             ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+    ☐ Python 3.8+ terinstall
+    ☐ Dependencies terinstall (pip install -r requirements.txt)
+    ☐ API key Gemini sudah didapat
+    ☐ Folder cluster_db sudah ada
+    ☐ File .gitignore sudah benar
+    ☐ Secrets tidak di-commit ke Git
+    ☐ Testing lokal berhasil
+    ☐ Repository GitHub sudah dibuat
+    ☐ Dokumentasi sudah dibaca
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                              SUPPORT & RESOURCES                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+    📚 Official Documentation
+    • Streamlit: https://docs.streamlit.io/
+    • Gemini API: https://ai.google.dev/docs
+    • LangChain: https://python.langchain.com/docs/
+    • ChromaDB: https://docs.trychroma.com/
+
+    💬 Community
+    • Streamlit Forum: https://discuss.streamlit.io/
+    • Stack Overflow: Tag 'streamlit' atau 'google-gemini'
+    • GitHub Issues: https://github.com/streamlit/streamlit/issues
+
+    🎓 Tutorials
+    • Streamlit Tutorial: https://docs.streamlit.io/get-started
+    • RAG Tutorial: https://python.langchain.com/docs/use_cases/question_answering/
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                  NOTES                                        ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+    ⚠️  PENTING:
+    • JANGAN commit API key ke Git!
+    • Selalu test lokal sebelum deploy
+    • Backup database secara berkala
+    • Monitor API usage untuk avoid over-limit
+
+    💡 TIPS:
+    • Gunakan virtual environment untuk isolasi
+    • Commit dengan message yang jelas
+    • Baca logs saat debugging
+    • Keep dependencies updated
+
+    🎯 NEXT STEPS:
+    1. Baca START_HERE.md
+    2. Pilih deployment method
+    3. Follow panduan yang sesuai
+    4. Deploy & enjoy! 🎉
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                    Project Ready to Deploy! Good Luck! 🚀
+═══════════════════════════════════════════════════════════════════════════════
