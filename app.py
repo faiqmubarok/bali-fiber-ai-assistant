@@ -1,8 +1,13 @@
 import os
 import streamlit as st
 import google.generativeai as genai
+from pathlib import Path
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
+
+# Base directory — always relative to this file, works in both local and production
+BASE_DIR = Path(__file__).parent
+CLUSTER_DB_PATH = str(BASE_DIR / 'cluster_db')
 
 # ============================================
 # KONFIGURASI HALAMAN
@@ -326,11 +331,12 @@ st.markdown("""
 
 # ============================================
 # KONFIGURASI API KEY
+# Supports both Streamlit Cloud (st.secrets) and local (.env / environment)
 # ============================================
-API_KEY = os.environ.get('GEMINI_API_KEY')
+API_KEY = st.secrets.get('GEMINI_API_KEY') or os.environ.get('GEMINI_API_KEY')
 
 if not API_KEY:
-    st.error('API key not found. Please configure GEMINI_API_KEY in your environment.')
+    st.error('API key not found. Please configure GEMINI_API_KEY in your Streamlit secrets.')
     st.stop()
 
 genai.configure(api_key=API_KEY)
@@ -359,9 +365,14 @@ def load_vectordb(_embedding_fn):
     """Load pre-processed vector database (cached for performance)"""
     try:
         vectordb = Chroma(
-            persist_directory='cluster_db',
+            persist_directory=CLUSTER_DB_PATH,
             embedding_function=_embedding_fn
         )
+        # Verify database has documents
+        count = vectordb._collection.count()
+        if count == 0:
+            st.error('Vector database is empty. Please run process_data.py to populate it.')
+            st.stop()
         return vectordb
     except Exception as e:
         st.error(f'Failed to load vector database: {e}')
