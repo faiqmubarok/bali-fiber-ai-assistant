@@ -26,9 +26,7 @@ wheels/
 # Streamlit
 .streamlit/secrets.toml
 
-# ChromaDB and processed data
-cluster_db/
-chroma.sqlite3
+# Pickle files (generated locally, not needed in git)
 *.pkl
 
 # Environment variables
